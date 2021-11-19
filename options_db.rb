@@ -64,7 +64,25 @@ def search_items
 end
 
 def list_category
-    puts "A implementar! Tecle ENTER para voltar ao menu principal."
+    puts "\nQual a categoria deseja listar todos itens?\n\n[1] JAVA \n[2] RUBY \n[3] PYTHON\n[4] OUTRO"
+    selecionar3 = gets.chomp.to_i
+    case selecionar3
+    when 1
+        nome_categoria = "JAVA"
+    when 2
+        nome_categoria = "RUBY"
+    when 3
+        nome_categoria = "PYTHON"
+    else
+        nome_categoria = "OUTRO"
+    end
+    l_c = @db.query("SELECT * FROM studies WHERE category = '#{nome_categoria}' ORDER BY category ASC").each do |row|
+        puts "\n#{row['category']}: #{row['title']} - #{row['description']}"
+    end
+    if l_c.count < 1
+        puts "\nNenhum item encontrado nesta categoria."
+    end
+    puts "\nTecle ENTER para voltar ao menu principal."
     gets
     menu
 end
@@ -76,7 +94,13 @@ def check_item
 end
 
 def checked_items
-    puts "A implementar! Tecle ENTER para voltar ao menu principal."
+    c_i = @db.query("SELECT * FROM studies WHERE active = 0 ORDER BY category ASC").each do |row|
+        puts "\n#{row['category']}: #{row['title']} - #{row['description']}"
+    end
+    if c_i.count < 1
+        puts "\nNenhum item concluído."
+    end
+    puts "\nTecle ENTER para voltar ao menu principal."
     gets
     menu
 end
