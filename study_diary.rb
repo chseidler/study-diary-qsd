@@ -1,4 +1,5 @@
-require_relative "./options.rb"
+
+require_relative "./options_db.rb"
 
 def menu
     loop do
@@ -9,7 +10,11 @@ def menu
         [1] Cadastrar um item para estudar      |
         [2] Ver todos os itens cadastrados      |
         [3] Buscar um item de estudo            |
-        [4] Sair                                |
+        [4] Listar por categoria                |
+        [5] Marcar um item como concluído       |
+        [6] Itens concluídos                    |
+        [7] Apagar um item                      |
+        [8] Sair                                |
         Escolha uma opção:                      |
         ---------------------------------------//
         MENU
@@ -18,12 +23,20 @@ def menu
 
         case opcao
         when 1
-            cadastrar_item
+            insert_item
         when 2
-            ver_itens
+            all_items
         when 3
-            buscar_itens
+            search_items
         when 4
+            list_category
+        when 5
+            check_item
+        when 6
+            checked_items
+        when 7
+            del_item
+        when 8
             exit
         else
             puts "\nOpção inválida, tecle ENTER para voltar ao menu principal."
