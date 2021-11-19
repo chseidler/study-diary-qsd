@@ -29,7 +29,7 @@ def insert_item
         else
             nome_categoria = "OUTRO"
         end
-    @db.query("insert into studies (title, description, category)
+    @db.query("INSERT INTO studies (title, description, category)
                             values ('#{titulo}', '#{descricao}', '#{nome_categoria}') ")
     puts "\nEstudo #{titulo.upcase} cadastrado na Categoria #{nome_categoria} com sucesso!"
     puts "\nTecle ENTER para voltar ao menu principal."
@@ -38,10 +38,10 @@ def insert_item
 end
 
 def all_items
-    rs = @db.query("select * from studies").each do |row|
-        puts "#{row["category"]}: #{row["title"]}"
+    a_i = @db.query("SELECT * FROM studies WHERE active = 1 ORDER BY category ASC").each do |row|
+        puts "\n#{row['category']}: #{row['title']} - #{row['description']}"
     end
-    if rs.count < 1
+    if a_i.count < 1
         puts "\nNenhum item cadastrado."
     end
     puts "\nTecle ENTER para voltar ao menu principal."
@@ -49,8 +49,16 @@ def all_items
     menu
 end
 
-def search_itens
-    puts "A implementar! Tecle ENTER para voltar ao menu principal."
+def search_items
+    puts "\nPesquise um item:"
+    pesquisa = gets.chomp
+    s_i = @db.query("SELECT * FROM studies WHERE active = 1 AND title LIKE '%#{pesquisa}%' OR description LIKE '%#{pesquisa}%' ORDER BY category ASC").each do |row|
+        puts "\n#{row['category']}: #{row['title']} - #{row['description']}"
+    end
+    if s_i.count < 1
+        puts "\nNenhum item encontrado."
+    end
+    puts "\nTecle ENTER para voltar ao menu principal."
     gets
     menu
 end
