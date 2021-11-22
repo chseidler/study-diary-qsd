@@ -8,9 +8,9 @@
 [2] Ver todos os itens cadastrados  - :heavy_check_mark:  
 [3] Buscar um item de estudo        - :heavy_check_mark:  
 [4] Listar por categoria            - :heavy_check_mark:  
-[5] Marcar um item como concluído   -  
+[5] Marcar um item como concluído   - :heavy_check_mark:  
 [6] Itens concluídos                - :heavy_check_mark:  
-[7] Apagar um item                  -  
+[7] Apagar um item                  - :heavy_check_mark:  
 [8] Sair                            - :heavy_check_mark:  
 Escolha uma opção:  
   
@@ -28,15 +28,17 @@ O “Buscar um item de estudo”, o usuário pode pesquisar por uma palavra e a 
   
 # Bugs
 - ~~Erro ao tentar implementar "Nenhum item encontrado" na busca.~~
+- Conferir se ID existe no banco de dados para marcar como concluído ou deletar.
 
 # A implementar
 - Conexão a banco de dados; :heavy_check_mark:
 - Listar por categoria; :heavy_check_mark:
-- Apagar um item;
+- Apagar um item; :heavy_check_mark:
 - Busca inclusive na descrição; :heavy_check_mark:
-- Marcar item como concluído.
+- Marcar item como concluído. :heavy_check_mark:
 
 # Banco de Dados
-- study_diary;
+- require 'mysql2';
+- db: study_diary;
 - user: qsd
 - password: qsd

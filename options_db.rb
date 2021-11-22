@@ -7,7 +7,7 @@ require 'mysql2'
                          :database  => "study_diary")
 
 def insert_item
-    puts "\nTitulo do item a ser estudado:"
+    puts "\nTítulo do item a ser estudado:"
     titulo = gets.chomp
     puts "\nDeseja adicionar uma descrição? \n[1] SIM \n[2] NÃO"
     selecionar = gets.chomp.to_i
@@ -64,7 +64,7 @@ def search_items
 end
 
 def list_category
-    puts "\nQual a categoria deseja listar todos itens?\n\n[1] JAVA \n[2] RUBY \n[3] PYTHON\n[4] OUTRO"
+    puts "\nQual a categoria que deseja listar todos itens?\n\n[1] JAVA \n[2] RUBY \n[3] PYTHON\n[4] OUTRO"
     selecionar3 = gets.chomp.to_i
     case selecionar3
     when 1
@@ -88,16 +88,32 @@ def list_category
 end
 
 def check_item
-    puts "A implementar! Tecle ENTER para voltar ao menu principal."
+    c_i = @db.query("SELECT * FROM studies WHERE active = 1 ORDER BY category ASC").each do |row|
+        puts "[ID - #{row['id']}] - #{row['category']}: #{row['title']} - #{row['description']}"
+    end
+    puts "Digite o ID do item que deseja marcar como conluído:"
+    concluir = gets.chomp.to_i
+    puts "Tem certeza que deseja marcar o item [ID - #{concluir}] como concluído? \n[1] SIM \n[2] NÃO"
+    confirmar = gets.chomp.to_i
+    if confirmar == 1
+        @db.query("UPDATE studies SET active = 0 WHERE id = #{concluir}")
+        puts "Item concluído com sucesso."
+    else
+        puts "Item mantido."
+    end
+    if c_i.count < 1
+        puts "\nNenhum item para ser concluído."
+    end
+    puts "\nTecle ENTER para voltar ao menu principal."
     gets
     menu
 end
 
 def checked_items
-    c_i = @db.query("SELECT * FROM studies WHERE active = 0 ORDER BY category ASC").each do |row|
+    c_is = @db.query("SELECT * FROM studies WHERE active = 0 ORDER BY category ASC").each do |row|
         puts "\n#{row['category']}: #{row['title']} - #{row['description']}"
     end
-    if c_i.count < 1
+    if c_is.count < 1
         puts "\nNenhum item concluído."
     end
     puts "\nTecle ENTER para voltar ao menu principal."
@@ -106,7 +122,23 @@ def checked_items
 end
 
 def del_item
-    puts "A implementar! Tecle ENTER para voltar ao menu principal."
+    d_i = @db.query("SELECT * FROM studies ORDER BY category ASC").each do |row|
+        puts "[ID - #{row['id']}] - #{row['category']}: #{row['title']} - #{row['description']}"
+    end
+    puts "Digite o ID do item que deseja deletar:"
+    deletar = gets.chomp.to_i
+    puts "Tem certeza que deseja deletar o item [ID - #{deletar}] ? \n[1] SIM \n[2] NÃO"
+    confirmar = gets.chomp.to_i
+    if confirmar == 1
+        @db.query("DELETE FROM studies WHERE id = #{deletar}")
+        puts "Item deletado com sucesso."
+    else
+        puts "Item mantido."
+    end
+    if d_i.count < 1
+        puts "\nNenhum item para ser deletado."
+    end
+    puts "\nTecle ENTER para voltar ao menu principal."
     gets
     menu
 end

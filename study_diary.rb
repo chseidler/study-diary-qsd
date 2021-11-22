@@ -37,6 +37,7 @@ def menu
         when 7
             del_item
         when 8
+            @db.close
             exit
         else
             puts "\nOpção inválida, tecle ENTER para voltar ao menu principal."
